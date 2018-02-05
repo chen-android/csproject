@@ -3,31 +3,25 @@ package com.cs.cswidgetandutilslibrary.database
 import android.text.TextUtils
 import android.util.Base64
 import com.blankj.utilcode.util.Utils
+import net.grandcentrix.tray.AppPreferences
 import java.io.*
 
 /**
  * Created by chenshuai12619 on 2018-02-05.
  */
 object CsDbUtils {
-	private val trayMap: MutableMap<String, CsTrayPreFerence> = mutableMapOf()
 
-	fun init(vararg databaseName: String) {
-		databaseName.forEach {
-			if (trayMap.containsKey(it).not()) {
-				createNewDataBase(it, 1)
-			}
-		}
+	var db: AppPreferences? = null
+
+	fun init() {
+		db = AppPreferences(Utils.getApp())
 	}
 
-	private fun createNewDataBase(dbName: String, version: Int) {
-		trayMap[dbName] = CsTrayPreFerence(Utils.getApp(), dbName, version)
-	}
+	fun putString(databaseName: String, key: String, value: String) = db!!.put(key, value)
+	fun getString(databaseName: String, key: String): String? = db!!.getString(key)
 
-	fun putString(databaseName: String, key: String, value: String) = trayMap[databaseName]?.put(key, value)
-	fun getString(databaseName: String, key: String): String? = trayMap[databaseName]?.getString(key)
-
-	fun putInt(databaseName: String, key: String, value: Int) = trayMap[databaseName]?.put(key, value)
-	fun getInt(databaseName: String, key: String): Int? = trayMap[databaseName]?.getInt(key, 0)
+	fun putInt(databaseName: String, key: String, value: Int) = db!!.put(key, value)
+	fun getInt(databaseName: String, key: String): Int? = db!!.getInt(key, 0)
 
 	fun putObject(databaseName: String, key: String, value: Any) {
 		val baos = ByteArrayOutputStream()
@@ -36,7 +30,7 @@ object CsDbUtils {
 			with(baos) {
 				oos = ObjectOutputStream(this)
 				oos!!.writeObject(value)
-				trayMap[databaseName]?.put(key, String(Base64.encode(this.toByteArray(), Base64.DEFAULT)))
+				db!!.put(key, String(Base64.encode(this.toByteArray(), Base64.DEFAULT)))
 			}
 		} catch (e: IOException) {
 
