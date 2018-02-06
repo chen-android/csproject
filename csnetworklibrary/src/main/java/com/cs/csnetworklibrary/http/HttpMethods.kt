@@ -2,6 +2,7 @@ package com.cs.csnetworklibrary.http
 
 import android.util.Log
 import com.cs.cswidgetandutilslibrary.CsUtils
+import com.cs.cswidgetandutilslibrary.database.CsDbUtils
 import com.cs.cswidgetandutilslibrary.database.PropertiesUtils
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
  * Created by chenshuai12619 on 2017/8/31 13:37.
  */
 object HttpMethods {
-	private const val DB_BASE_URL: String = ""
+	private const val DB_BASE_URL: String = "db_base_url"
 
 	//key:业务类型
 	private val retrofitMap: MutableMap<String, Retrofit>
@@ -44,19 +45,19 @@ object HttpMethods {
 		for (type in types) {
 			retrofitMap[type] = Retrofit.Builder()
 					.client(okHttpClientBuilder.build())
-					.addConverterFactory(BbkbConverterFactory.create())
+					.addConverterFactory(CsConverterFactory.create())
 					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 					.baseUrl(getBaseUrl(type))
 					.build()
 		}
 	}
 
-	fun init(requestJsonHandle: BbkbJsonHandleInterface, responseJsonHandle: BbkbJsonHandleInterface, vararg types: String) {//type ,是配置文件，地址key
+	fun init(requestJsonHandle: CsJsonHandleInterface, responseJsonHandle: CsJsonHandleInterface, vararg types: String) {//type ,是配置文件，地址key
 		for (type in types) {
 
 			retrofitMap[type] = Retrofit.Builder()
 					.client(okHttpClientBuilder.build())
-					.addConverterFactory(BbkbConverterFactory.create(requestJsonHandle, responseJsonHandle))
+					.addConverterFactory(CsConverterFactory.create(requestJsonHandle, responseJsonHandle))
 					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 					.baseUrl(getBaseUrl(type))
 					.build()
@@ -68,23 +69,24 @@ object HttpMethods {
 	}
 
 	private fun getBaseUrl(type: String): String {
-		if (BbkbUtils.isAppDebug) {
+		if (CsUtils.isAppDebug) {
 			return if (urlCaches.containsKey(type)) {
 				urlCaches[type]!!
 			} else {
-				var url = BbkbDbUtils.getInstance().getString(HttpConstant.DB_BASE_URL, type, "")
-				if (EmptyUtils.isEmpty(url)) {
-					url = PropertiesUtils.getInstance().getProperty("http_path_" + type + "_debug")
-					BbkbDbUtils.getInstance().putString(HttpConstant.DB_BASE_URL, type, url)
+				var url = CsDbUtils.getString(DB_BASE_URL + type)
+				if (url.isNullOrEmpty()) {
+					url = PropertiesUtils.getProperty("http_path_${type}_debug") ?: throw NullPointerException("接口地址为空，请检查")
+					CsDbUtils.putString(DB_BASE_URL + type, url)
 				}
-				urlCaches[type] = url
+				urlCaches[type] = url!!
 				url
 			}
 		} else {
 			return if (urlCaches.containsKey(type)) {
 				urlCaches[type]!!
 			} else {
-				val url = PropertiesUtils.getInstance().getProperty<String>("http_path_" + type)
+				val url: String = PropertiesUtils.getProperty("http_path_$type")
+						?: throw NullPointerException("接口地址为空，请检查")
 				urlCaches[type] = url
 				url
 			}
@@ -92,7 +94,7 @@ object HttpMethods {
 	}
 
 	fun clearUrlCache() {
-		BbkbDbUtils.getInstance().clear(HttpConstant.DB_BASE_URL)
+		CsDbUtils.remove(DB_BASE_URL)
 	}
 
 

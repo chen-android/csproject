@@ -17,13 +17,13 @@ object CsDbUtils {
 		db = AppPreferences(Utils.getApp())
 	}
 
-	fun putString(databaseName: String, key: String, value: String) = db!!.put(key, value)
-	fun getString(databaseName: String, key: String): String? = db!!.getString(key)
+	fun putString(key: String, value: String) = db!!.put(key, value)
+	fun getString(key: String): String? = db!!.getString(key)
 
-	fun putInt(databaseName: String, key: String, value: Int) = db!!.put(key, value)
-	fun getInt(databaseName: String, key: String): Int? = db!!.getInt(key, 0)
+	fun putInt(key: String, value: Int) = db!!.put(key, value)
+	fun getInt(key: String): Int? = db!!.getInt(key, 0)
 
-	fun putObject(databaseName: String, key: String, value: Any) {
+	fun putObject(key: String, value: Any) {
 		val baos = ByteArrayOutputStream()
 		var oos: ObjectOutputStream? = null
 		try {
@@ -42,8 +42,8 @@ object CsDbUtils {
 		}
 	}
 
-	fun <T> getObject(databaseName: String, key: String): T? {
-		val string = getString(databaseName, key)
+	fun <T> getObject(key: String): T? {
+		val string = getString(key)
 		if (TextUtils.isEmpty(string)) {
 			return null
 		}
@@ -51,7 +51,6 @@ object CsDbUtils {
 			val bais = ByteArrayInputStream(it)
 			try {
 				val bis = ObjectInputStream(bais)
-				val o = bis.readObject()
 				bis.readObject() as T
 			} catch (e: Exception) {
 				null
@@ -59,7 +58,11 @@ object CsDbUtils {
 				bais.close()
 			}
 		}
+	}
 
-
+	fun remove(vararg key: String) {
+		key.forEach {
+			db!!.remove(it)
+		}
 	}
 }

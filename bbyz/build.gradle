@@ -1,15 +1,21 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 android {
+
 	compileSdkVersion rootProject.ext.compileSdkVersion
 	buildToolsVersion rootProject.ext.buildToolsVersion
 
 	defaultConfig {
+		applicationId "com.cs.bbyz"
 		minSdkVersion rootProject.ext.minSdkVersion
 		targetSdkVersion rootProject.ext.targetSdkVersion
 		versionCode 1
 		versionName "1.0"
+
+		resValue "string", "tray__authority", "${applicationId}.tray"
 	}
+
 	buildTypes {
 		release {
 			minifyEnabled false
@@ -21,12 +27,10 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'net.grandcentrix.tray:tray:1.0.0-rc3'//一个代替SharedPreferences的缓存工具
-	api 'com.orhanobut:logger:2.1.1'//日志打印
-	api 'com.alibaba:fastjson:1.1.67.android'
-	api 'com.blankj:utilcode:1.8.5'
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-	mavenCentral()
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+	implementation 'com.android.support:appcompat-v7:26.1.0'
+	implementation 'com.android.support:design:26.1.0'
+	implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+	testImplementation 'junit:junit:4.12'
+	api project(':csnetworklibrary')
 }
