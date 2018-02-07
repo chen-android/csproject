@@ -1,5 +1,6 @@
 package com.cs.bbyz.http.encrypt;
 
+import java.nio.charset.Charset;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -55,17 +56,18 @@ public class AES256Encryption<T> {
 //		cipher.init(Cipher.ENCRYPT_MODE, k);
 //		return cipher.doFinal(data);
 //	}
+	public static byte[] iv = "ajxieotpbjfhdietq".getBytes(Charset.forName("UTF-8"));
 	//返回加密格式
 	public static String encrypt(byte[] data, byte[] key) throws Exception {
 		
 		Key k = toKey(key);
 		//Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 		Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-		cipher.init(Cipher.ENCRYPT_MODE, k);
+		IvParameterSpec ivSpec = new IvParameterSpec(iv);
+		cipher.init(Cipher.ENCRYPT_MODE, k, ivSpec);
 		return bytesToHexString(cipher.doFinal(data));
 	}
 	
-	public static byte[] iv = {0x4f, 0x5a, 0x46, 0x34, 0x36, 0x4a, 0x45, 0x34, 0x52, 0x4c, 0x39, 0x5a, 0x53, 0x35, 0x46, 0x50};
 	
 	public static String decrypt(byte[] data, byte[] key) throws Exception {
 		Key k = toKey(key);

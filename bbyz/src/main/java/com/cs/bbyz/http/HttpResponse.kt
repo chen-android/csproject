@@ -5,7 +5,7 @@ package com.cs.bbyz.http
  */
 
 data class HttpResponse<T>(var returnInfo: String?, var returnNo: Int?, var secure: String?,
-                           var content: String?, var obj: T) {
+                           var content: String?, var obj: T?) {
 	var success: Boolean = false
 		get() = returnNo == 0
 }

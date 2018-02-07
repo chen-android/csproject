@@ -19,15 +19,15 @@ object HttpMethods {
 	//key:业务类型
 	private val retrofitMap: MutableMap<String, Retrofit>
 	private val urlCaches: MutableMap<String, String>
-	private var DEFAULT_TIMEOUT: Long? = 30 * 1000
+	private var DEFAULT_TIMEOUT: Int = 30
 
 	private val okHttpClientBuilder: OkHttpClient.Builder
 		get() {
 			val builder = OkHttpClient.Builder()
-			builder.connectTimeout(DEFAULT_TIMEOUT!!, TimeUnit.SECONDS)
+			builder.connectTimeout(DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
 			if (CsUtils.isAppDebug) {
-				val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("BBKB-LOGGER", message) })
+				val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("BBYZ-LOGGER", message) })
 				interceptor.level = HttpLoggingInterceptor.Level.BASIC
 				builder.addInterceptor(interceptor)
 			}
@@ -35,24 +35,16 @@ object HttpMethods {
 		}
 
 	init {
-		DEFAULT_TIMEOUT = PropertiesUtils.getProperty("HTTP_TIMEOUT_SECOND", PropertiesUtils.PropertyType.INT)
+		DEFAULT_TIMEOUT = PropertiesUtils.getProperty("HTTP_TIMEOUT_SECOND", PropertiesUtils.PropertyType.INT) ?: 30
 
 		retrofitMap = mutableMapOf()
 		urlCaches = mutableMapOf()
 	}
 
-	fun init(vararg types: String) {//type ,是配置文件，地址key
-		for (type in types) {
-			retrofitMap[type] = Retrofit.Builder()
-					.client(okHttpClientBuilder.build())
-					.addConverterFactory(CsConverterFactory.create())
-					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-					.baseUrl(getBaseUrl(type))
-					.build()
-		}
-	}
-
-	fun init(requestJsonHandle: CsJsonHandleInterface, responseJsonHandle: CsJsonHandleInterface, vararg types: String) {//type ,是配置文件，地址key
+	/**
+	 * types 是业务类型，如果应用需要多个请求地址时，会用到。
+	 */
+	fun init(vararg types: String, requestJsonHandle: CsJsonHandleInterface = DefaultCsJsonHandle(), responseJsonHandle: CsJsonHandleInterface = DefaultCsJsonHandle()) {
 		for (type in types) {
 
 			retrofitMap[type] = Retrofit.Builder()
@@ -74,7 +66,7 @@ object HttpMethods {
 				urlCaches[type]!!
 			} else {
 				var url = CsDbUtils.getString(DB_BASE_URL + type)
-				if (url.isNullOrEmpty()) {
+				if (url.isEmpty()) {
 					url = PropertiesUtils.getProperty("http_path_${type}_debug") ?: throw NullPointerException("接口地址为空，请检查")
 					CsDbUtils.putString(DB_BASE_URL + type, url)
 				}

@@ -11,14 +11,14 @@ import java.lang.reflect.Type
  * @date 2018-02-06
  */
 class CsConverterFactory private constructor(
-		private val requestJsonHandle: CsJsonHandleInterface?,
-		private val responseJsonHandle: CsJsonHandleInterface?
+		private val requestJsonHandle: CsJsonHandleInterface,
+		private val responseJsonHandle: CsJsonHandleInterface
 ) : Converter.Factory() {
 
 	companion object {
 		fun create(
-				requestJsonHandle: CsJsonHandleInterface? = DefaultCsJsonHandle(),
-				responseJsonHandle: CsJsonHandleInterface? = DefaultCsJsonHandle()
+				requestJsonHandle: CsJsonHandleInterface,
+				responseJsonHandle: CsJsonHandleInterface
 		): CsConverterFactory = CsConverterFactory(requestJsonHandle, responseJsonHandle)
 	}
 

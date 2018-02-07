@@ -13,15 +13,15 @@ object CsDbUtils {
 
 	var db: AppPreferences? = null
 
-	fun init() {
+	init {
 		db = AppPreferences(Utils.getApp())
 	}
 
 	fun putString(key: String, value: String) = db!!.put(key, value)
-	fun getString(key: String): String? = db!!.getString(key)
+	fun getString(key: String): String = db!!.getString(key, "")!!
 
 	fun putInt(key: String, value: Int) = db!!.put(key, value)
-	fun getInt(key: String): Int? = db!!.getInt(key, 0)
+	fun getInt(key: String): Int = db!!.getInt(key, 0)
 
 	fun putObject(key: String, value: Any) {
 		val baos = ByteArrayOutputStream()
@@ -51,7 +51,7 @@ object CsDbUtils {
 			val bais = ByteArrayInputStream(it)
 			try {
 				val bis = ObjectInputStream(bais)
-				bis.readObject() as T
+				bis.readObject() as? T
 			} catch (e: Exception) {
 				null
 			} finally {
