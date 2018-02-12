@@ -1,5 +1,7 @@
 package com.cs.bbyz.http.encrypt;
 
+import com.blankj.utilcode.util.EncryptUtils;
+
 import java.nio.charset.Charset;
 import java.security.Key;
 import java.security.MessageDigest;
@@ -56,7 +58,7 @@ public class AES256Encryption<T> {
 //		cipher.init(Cipher.ENCRYPT_MODE, k);
 //		return cipher.doFinal(data);
 //	}
-	public static byte[] iv = "ajxieotpbjfhdietq".getBytes(Charset.forName("UTF-8"));
+	private static byte[] iv = "ajxieotpbjfhdiet".getBytes(Charset.forName("UTF-8"));
 	//返回加密格式
 	public static String encrypt(byte[] data, byte[] key) throws Exception {
 		
@@ -200,39 +202,15 @@ public class AES256Encryption<T> {
 	private static byte charToByte(char c) {
 		return (byte) "0123456789ABCDEF".indexOf(c);
 	}
-
-//	public static void main(String[] args) throws Exception {
-//		
-//		//-------------------------原文准备区-----------------------------
-//		// 原文  account=a115&brokerNo=0012&salesChannel=0011
-//		//PushInfoReJson content =new PushInfoReJson("a115","0012","0010");
-//		String content="";
-//		String contentJson =JsonUtil.getJson(content);
-//		String strSource = contentJson;
-//		System.out.println("原文:		" + strSource);
-//		//-------------------------密钥-----------------------------
-//		String strKey="hlgc.com";
-//		System.out.println("key：		" + strKey);
-//		byte[] key;
-//		key = MD5(strKey).getBytes();
-//		System.out.println("key的MD5值:	" + new String(key));
-//		
-//		//-------------------------加密-----------------------------
-//		// 加密
-//		byte[] enSource1 = "".getBytes();//AES256Encryption.encrypt(strSource.getBytes(), key);
-//
-//		// 转换为16进制字符串
-//		String enSource2 = AES256Encryption.bytesToHexString(enSource1);
-//		System.out.println("加密后:		" + enSource2);
-//
-//
-//		//-------------------------解密----------------------------
-//		// 转换为字节数组
-//		byte[] deSource2 = hexStringToBytes(enSource2);
-//		// 解密
-//		byte[] deSource1 = AES256Encryption.decrypt(deSource2, key);
-//		System.out.println("解密后：		" + new String(deSource1));
-//
-//
-//	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		String str = "加鲁加定了开发";
+		String key = EncryptUtils.encryptMD5ToString(String.valueOf(System.currentTimeMillis()));
+		String enStr = encrypt(str.getBytes(), key.getBytes());
+		
+		String re = decrypt(enStr.getBytes(), key.getBytes());
+		System.out.println(re);
+		
+	}
 }

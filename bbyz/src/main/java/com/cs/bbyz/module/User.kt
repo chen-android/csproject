@@ -8,11 +8,11 @@ data class User(
 		/* id */
 		var id: String?,
 		/* 工号 */
-		var WrokerNo: String,
+		var WorkerNo: String?,
 		/* 名字 */
-		var WorkerName: String,
+		var WorkerName: String?,
 		/* 名字拼写 */
-		var Spell: String,
+		var Spell: String?,
 		/* 密码 */
-		var Password: String
+		var Password: String?
 )

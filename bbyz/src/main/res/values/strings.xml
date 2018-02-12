@@ -5,9 +5,21 @@
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	
 	<string name="action_settings">Settings</string>
+	
+	<!--公共-->
+	<string name="please_wait">请等待…</string>
+	<string name="network_error">网络异常，请稍后重试</string>
+	
+	<!--登录-->
 	<string name="title_activity_login">巴巴快巴移动站务系统</string>
 	<string name="login_account">账号</string>
 	<string name="login_pwd">密码</string>
 	<string name="login_save_pwd">记住该密码</string>
 	<string name="login">登录</string>
+	
+	<!--主页-->
+	<string name="unset_station">请选择车站</string>
+	<string name="station_change">切换</string>
+	<string name="station_filter">过滤</string>
+	<string name="passenger_flow_summary">客流汇总</string>
 </resources>

@@ -27,7 +27,7 @@ object HttpMethods {
 			builder.connectTimeout(DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
 			if (CsUtils.isAppDebug) {
-				val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("BBYZ-LOGGER", message) })
+				val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("BBYZ-NETWORK", message) })
 				interceptor.level = HttpLoggingInterceptor.Level.BASIC
 				builder.addInterceptor(interceptor)
 			}

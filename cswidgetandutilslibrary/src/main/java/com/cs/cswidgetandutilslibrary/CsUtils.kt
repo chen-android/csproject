@@ -1,7 +1,6 @@
 package com.cs.cswidgetandutilslibrary
 
 import android.app.Application
-import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.cs.cswidgetandutilslibrary.database.PropertiesUtils
 import com.orhanobut.logger.AndroidLogAdapter
@@ -18,8 +17,8 @@ object CsUtils {
 	fun init(context: Application) {
 		Utils.init(context)
 		val packageName: String? = PropertiesUtils.getProperty("net_plugin_name", PropertiesUtils.PropertyType.STRING)
-		isAppDebug = AppUtils.isInstallApp(packageName)
-
+//		isAppDebug = AppUtils.isInstallApp(packageName)
+		isAppDebug = true
 		/*日之类初始化，必须置顶，因为下面几个工具类初始化，可能会用到logger。*/
 		initLogger()
 	}
@@ -27,7 +26,7 @@ object CsUtils {
 	private fun initLogger() {
 		val formatStrategy = PrettyFormatStrategy.newBuilder()
 				.showThreadInfo(false)
-				.tag("BBKB-LOGGER")
+				.tag("BBYZ-LOGGER")
 				.build()
 
 		Logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {

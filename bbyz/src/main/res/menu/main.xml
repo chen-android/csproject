@@ -2,6 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
+		android:id="@+id/action_station"
+		android:orderInCategory="10"
+		android:title="@string/station_change"
+		app:showAsAction="always"/>
+	<item
+		android:id="@+id/action_filter"
+		android:orderInCategory="20"
+		android:icon="@drawable/icon_home_ticket_filter"
+		android:title="过滤"
+		app:showAsAction="always"/>
+	<item
+		android:id="@+id/action_passenger_flow_summary"
+		android:orderInCategory="30"
+		android:icon="@drawable/icon_home_passenger_flow_summary"
+		android:title="@string/passenger_flow_summary"
+		app:showAsAction="collapseActionView|withText"/>
+	<item
 		android:id="@+id/action_settings"
 		android:orderInCategory="100"
 		android:title="@string/action_settings"

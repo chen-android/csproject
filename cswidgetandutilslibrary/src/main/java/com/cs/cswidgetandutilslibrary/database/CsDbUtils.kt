@@ -17,7 +17,7 @@ object CsDbUtils {
 		db = AppPreferences(Utils.getApp())
 	}
 
-	fun putString(key: String, value: String) = db!!.put(key, value)
+	fun putString(key: String, value: String?) = db!!.put(key, value)
 	fun getString(key: String): String = db!!.getString(key, "")!!
 
 	fun putInt(key: String, value: Int) = db!!.put(key, value)

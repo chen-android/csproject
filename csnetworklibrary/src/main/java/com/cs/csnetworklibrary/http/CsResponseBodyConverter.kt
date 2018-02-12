@@ -18,6 +18,7 @@ class CsResponseBodyConverter(private var type: Type?, private var handle: CsJso
 		val bufferedSource: BufferedSource = Okio.buffer(value!!.source())
 		val tempStr = bufferedSource.readUtf8() ?: throw IOException("response is null")
 		bufferedSource.close()
-		return JSON.parseObject(handle.handleJson(tempStr) ?: tempStr, type)
+
+		return JSON.parseObject(handle.handleJson(tempStr), type)
 	}
 }
