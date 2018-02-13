@@ -2,7 +2,6 @@ package com.cs.cswidgetandutilslibrary
 
 import android.app.Application
 import com.blankj.utilcode.util.Utils
-import com.cs.cswidgetandutilslibrary.database.PropertiesUtils
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -16,7 +15,7 @@ object CsUtils {
 
 	fun init(context: Application) {
 		Utils.init(context)
-		val packageName: String? = PropertiesUtils.getProperty("net_plugin_name", PropertiesUtils.PropertyType.STRING)
+//		val packageName: String? = PropertiesUtils.getProperty("net_plugin_name", PropertiesUtils.PropertyType.STRING)
 //		isAppDebug = AppUtils.isInstallApp(packageName)
 		isAppDebug = true
 		/*日之类初始化，必须置顶，因为下面几个工具类初始化，可能会用到logger。*/

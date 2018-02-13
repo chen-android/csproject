@@ -12,7 +12,7 @@ android {
 	}
 	buildTypes {
 		release {
-			minifyEnabled false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
@@ -26,7 +26,7 @@ dependencies {
 	api 'com.alibaba:fastjson:1.1.67.android'
 	api 'com.blankj:utilcode:1.12.5'
 	api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-	api 'com.afollestad.material-dialogs:core:0.9.6.0'
+//	api 'com.afollestad.material-dialogs:core:0.9.6.0'
 }
 repositories {
 	mavenCentral()

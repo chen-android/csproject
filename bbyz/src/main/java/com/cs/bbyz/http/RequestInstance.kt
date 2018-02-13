@@ -1,5 +1,6 @@
 package com.cs.bbyz.http
 
+import com.cs.bbyz.module.HttpResponse
 import com.cs.bbyz.module.Station
 import com.cs.bbyz.module.User
 import com.cs.bbyz.storage.CacheUtils

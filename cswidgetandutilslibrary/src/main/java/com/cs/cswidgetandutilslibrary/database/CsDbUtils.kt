@@ -47,7 +47,7 @@ object CsDbUtils {
 		if (TextUtils.isEmpty(string)) {
 			return null
 		}
-		return Base64.decode(string!!.toByteArray(), Base64.DEFAULT).let {
+		return Base64.decode(string.toByteArray(), Base64.DEFAULT).let {
 			val bais = ByteArrayInputStream(it)
 			try {
 				val bis = ObjectInputStream(bais)

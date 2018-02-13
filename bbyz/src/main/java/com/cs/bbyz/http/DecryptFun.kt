@@ -3,6 +3,7 @@ package com.cs.bbyz.http
 import com.alibaba.fastjson.JSON
 import com.cs.bbyz.constant.Constant
 import com.cs.bbyz.http.encrypt.AES256Encryption
+import com.cs.bbyz.module.HttpResponse
 import com.orhanobut.logger.Logger
 import io.reactivex.functions.Function
 import org.json.JSONArray
@@ -17,7 +18,7 @@ import org.json.JSONTokener
  */
 class DecryptFun<T>(private var command: String, private var clazz: Class<T>?) : Function<HttpResponse<T>, HttpResponse<T>> {
 	override fun apply(t: HttpResponse<T>): HttpResponse<T> {
-		if (t.success) {
+		if (t.isSuccess) {
 			decrypt(t, command)
 		}
 		return t
@@ -25,7 +26,7 @@ class DecryptFun<T>(private var command: String, private var clazz: Class<T>?) :
 
 	companion object {
 		fun <T> decrypt(resp: HttpResponse<T>, command: String): HttpResponse<T> {
-			if (resp.success) {
+			if (resp.isSuccess) {
 				val content = AES256Encryption.decrypt(AES256Encryption.hexStringToBytes(resp.content), Constant.rsaKeyCache[command]?.toByteArray())
 				val json = JSONObject(JSON.toJSONString(resp))
 				val tokener = JSONTokener(content).nextValue()

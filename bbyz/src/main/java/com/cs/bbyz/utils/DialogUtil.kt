@@ -1,7 +1,9 @@
 package com.cs.bbyz.utils
 
+import android.app.Dialog
 import android.content.Context
-import com.afollestad.materialdialogs.MaterialDialog
+import android.support.v7.app.AlertDialog
+import android.view.View
 import com.cs.bbyz.R
 
 
@@ -10,13 +12,12 @@ import com.cs.bbyz.R
  * @date 2018-02-08
  */
 object DialogUtil {
-	fun showProgressDialog(context: Context): MaterialDialog {
-		var dialog = MaterialDialog.Builder(context)
-				.content(R.string.please_wait)
-				.progress(true, 0)
-				.build()
-		return dialog.apply {
-			dialog.show()
-		}
+	fun showProgressDialog(context: Context): Dialog {
+		return AlertDialog.Builder(context)
+				.setView(View.inflate(context, R.layout.dialog_progress, null))
+				.create()
+				.apply {
+					show()
+				}
 	}
 }

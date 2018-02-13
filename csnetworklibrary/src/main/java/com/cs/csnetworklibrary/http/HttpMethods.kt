@@ -70,7 +70,7 @@ object HttpMethods {
 					url = PropertiesUtils.getProperty("http_path_${type}_debug") ?: throw NullPointerException("接口地址为空，请检查")
 					CsDbUtils.putString(DB_BASE_URL + type, url)
 				}
-				urlCaches[type] = url!!
+				urlCaches[type] = url
 				url
 			}
 		} else {

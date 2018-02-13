@@ -49,6 +49,7 @@ object PropertiesUtils {
 
 	fun <T> getProperty(key: String, type: PropertyType = PropertyType.STRING): T? {
 		var value: String = configProperties!![key].toString()
+
 		return when (type) {
 			PropertyType.INT -> value.toIntOrNull() as T
 			PropertyType.STRING -> value as T

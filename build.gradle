@@ -23,9 +23,9 @@ allprojects {
     ext{
         compileSdkVersion=26
         buildToolsVersion="27.0.3"
-        minSdkVersion=16
+        minSdkVersion=17
         targetSdkVersion=26
-        androidSupportVersion="25.3.1"
+        androidSupportVersion="27.0.2"
     }
 }
 
