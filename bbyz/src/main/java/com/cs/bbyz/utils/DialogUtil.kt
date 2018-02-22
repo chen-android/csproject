@@ -20,4 +20,17 @@ object DialogUtil {
 					show()
 				}
 	}
+
+	fun <T> showSimpleListDialog(context: Context, title: String, list: List<T>, click: (position: Int, item: T) -> Unit): Dialog {
+		var items: Array<String> = Array(list.size, { i: Int -> list[i].toString() })
+		return AlertDialog.Builder(context)
+				.setTitle(title)
+				.setItems(
+						items,
+						{ _, which ->
+							click(which, list[which])
+						}
+				).create().apply { show() }
+
+	}
 }

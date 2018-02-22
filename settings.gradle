@@ -1,1 +1,1 @@
-include ':app', ':csnetworklibrary', ':cswidgetandutilslibrary', ':bbyz'
+include ':app', ':csnetworklibrary', ':cswidgetandutilslibrary', ':bbyz', ':csdebug'

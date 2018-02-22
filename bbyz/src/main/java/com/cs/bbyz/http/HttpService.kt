@@ -15,7 +15,7 @@ import java.util.*
  * @date 2018-02-07
  */
 object HttpService {
-	val requestInstance: RequestInstance = HttpMethods.getClassInstance(Constant.BUSSINESS_TYPE_COMMON, RequestInstance::class.java)
+	private val requestInstance: RequestInstance = HttpMethods.getClassInstance(Constant.BUSSINESS_TYPE_COMMON, RequestInstance::class.java)
 
 	fun requestLogin(context: Context, command: String, account: String, pwd: String, next: ((user: User?) -> Unit)) {
 		requestInstance.login(
@@ -27,7 +27,7 @@ object HttpService {
 		).map(DecryptFun(command, User::class.java))
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(ProgressObserver<User>(
+				.subscribe(ProgressObserver(
 						context,
 						{
 							next(it)
@@ -37,11 +37,11 @@ object HttpService {
 	}
 
 	fun requestStation(context: Context, command: String, next: (stationList: List<Station>?) -> Unit) {
-		requestInstance.stationList(command, getEncryptRequestMap(mutableMapOf<String, Any>(), command))
-				.map(DecryptFun(command, null))
+		requestInstance.stationList(command, getEncryptRequestMap(mutableMapOf(), command))
+				.map(DecryptFun(command, Station::class.java))
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(ProgressObserver<List<Station>>(
+				.subscribe(ProgressObserver(
 						context,
 						{
 							next(it)

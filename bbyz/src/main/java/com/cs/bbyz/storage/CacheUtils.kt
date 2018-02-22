@@ -1,6 +1,7 @@
 package com.cs.bbyz.storage
 
 import com.cs.bbyz.module.Common
+import com.cs.bbyz.module.Station
 import com.cs.cswidgetandutilslibrary.database.CsDbUtils
 
 /**
@@ -10,6 +11,7 @@ import com.cs.cswidgetandutilslibrary.database.CsDbUtils
 object CacheUtils {
 	var common: Common? = null
 	var workerNo: String? = null
+	var station: Station? = null
 	fun getUserAccount(): String = CsDbUtils.getString("db_user_account")
 	fun setUserAccount(account: String?) = CsDbUtils.putString("db_user_account", account)
 

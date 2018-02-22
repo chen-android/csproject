@@ -2,7 +2,7 @@ package com.cs.cswidgetandutilslibrary.database
 
 import android.text.TextUtils
 import android.util.Base64
-import com.blankj.utilcode.util.Utils
+import com.cs.cswidgetandutilslibrary.CsUtils
 import net.grandcentrix.tray.AppPreferences
 import java.io.*
 
@@ -14,7 +14,7 @@ object CsDbUtils {
 	var db: AppPreferences? = null
 
 	init {
-		db = AppPreferences(Utils.getApp())
+		db = AppPreferences(CsUtils.app)
 	}
 
 	fun putString(key: String, value: String?) = db!!.put(key, value)

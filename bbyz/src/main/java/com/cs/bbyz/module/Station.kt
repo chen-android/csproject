@@ -7,4 +7,8 @@ package com.cs.bbyz.module
 data class Station(
 		var ID: String?,
 		var StationName: String?
-)
+) {
+	override fun toString(): String {
+		return StationName ?: ""
+	}
+}

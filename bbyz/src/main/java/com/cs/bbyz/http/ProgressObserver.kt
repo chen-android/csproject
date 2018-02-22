@@ -2,10 +2,10 @@ package com.cs.bbyz.http
 
 import android.app.Dialog
 import android.content.Context
-import com.blankj.utilcode.util.ToastUtils
 import com.cs.bbyz.R
 import com.cs.bbyz.module.HttpResponse
 import com.cs.bbyz.utils.DialogUtil
+import com.cs.cswidgetandutilslibrary.utils.ToastUtils
 import com.orhanobut.logger.Logger
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -26,7 +26,7 @@ class ProgressObserver<T>(var context: Context, var success: ((result: T?) -> Un
 	}
 
 	override fun onNext(t: HttpResponse<T>) {
-		if (t.isSuccess) {
+		if (t.success) {
 			success(t.obj)
 		} else {
 			error?.let { error!!(t.returnNo!!, t.returnInfo!!) }

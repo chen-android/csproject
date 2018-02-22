@@ -1,6 +1,6 @@
 package com.cs.csnetworklibrary.http
 
-import com.alibaba.fastjson.JSON
+import com.google.gson.Gson
 import okhttp3.ResponseBody
 import okio.BufferedSource
 import okio.Okio
@@ -19,6 +19,6 @@ class CsResponseBodyConverter(private var type: Type?, private var handle: CsJso
 		val tempStr = bufferedSource.readUtf8() ?: throw IOException("response is null")
 		bufferedSource.close()
 
-		return JSON.parseObject(handle.handleJson(tempStr), type)
+		return Gson().fromJson(handle.handleJson(tempStr), type)
 	}
 }

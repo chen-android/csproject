@@ -18,8 +18,9 @@
 	<string name="login">登录</string>
 	
 	<!--主页-->
-	<string name="unset_station">请选择车站</string>
+	<string name="station_title">请选择车站</string>
 	<string name="station_change">切换</string>
 	<string name="station_filter">过滤</string>
 	<string name="passenger_flow_summary">客流汇总</string>
+	<string name="no_usable_station">无可用车站</string>
 </resources>

@@ -11,6 +11,12 @@ import android.view.MenuItem
 import com.cs.bbyz.R
 import com.cs.bbyz.constant.Constant
 import com.cs.bbyz.http.HttpService
+import com.cs.bbyz.module.HttpResponse
+import com.cs.bbyz.storage.CacheUtils
+import com.cs.bbyz.utils.DialogUtil
+import com.cs.cswidgetandutilslibrary.utils.ToastUtils
+import com.google.gson.Gson
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -32,13 +38,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		drawer_layout.addDrawerListener(toggle)
 		toggle.syncState()
 
-		toolbar.title = getString(R.string.unset_station)
-		toolbar.subtitle = DateFormat.format(Constant.FULL_DATE_FORMAT, System.currentTimeMillis())
+		toolbar.title = getString(R.string.station_title)
+		toolbar.subtitle = DateFormat.format(Constant.FORMAT_YMDHM, System.currentTimeMillis())
 
 	}
 
 	private fun initEvent() {
 		nav_view.setNavigationItemSelectedListener(this)
+		fab.setOnClickListener {
+			var json = "{'content':'adfasd','returnInfo':'info','obj':[{'ID':'1','StationName':'丽水'},{'ID':'2','StationName':'宁波'}]}"
+			val resp = Gson().fromJson(
+					json,
+					HttpResponse::class.java
+			)
+			Logger.d(resp)
+		}
 	}
 
 	override fun onBackPressed() {
@@ -50,15 +64,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		menuInflater.inflate(R.menu.main, menu)
 		return true
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		return when (item.itemId) {
 			R.id.action_station -> {
 				requestStationList()
@@ -98,7 +108,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 	private fun requestStationList() {
 		HttpService.requestStation(this, Constant.COMMAND_STATION.first, {
+			if (it?.isNotEmpty() == true) {
+				DialogUtil.showSimpleListDialog(
+						this,
+						getString(R.string.station_title),
+						it,
+						{ _, item ->
+							CacheUtils.station = item
 
+						}
+				)
+			} else {
+				ToastUtils.showShort(getString(R.string.no_usable_station))
+			}
 		})
 	}
 }

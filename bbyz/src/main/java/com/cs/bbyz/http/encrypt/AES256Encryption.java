@@ -1,6 +1,6 @@
 package com.cs.bbyz.http.encrypt;
 
-import com.blankj.utilcode.util.EncryptUtils;
+import com.cs.cswidgetandutilslibrary.utils.EncryptUtils;
 
 import java.nio.charset.Charset;
 import java.security.Key;
@@ -139,8 +139,12 @@ public class AES256Encryption<T> {
 			StringBuffer bufResult = new StringBuffer("");
 			for (int j = 0; j < b.length; j++) {
 				i = b[j];
-				if (i < 0) i += 256;
-				if (i < 16) bufResult.append("0");
+				if (i < 0) {
+					i += 256;
+				}
+				if (i < 16) {
+					bufResult.append("0");
+				}
 				bufResult.append(Integer.toHexString(i));
 			}
 			result = bufResult.toString();

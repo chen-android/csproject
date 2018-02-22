@@ -13,7 +13,8 @@ object Constant {
 	const val COMMAND_NO: String = "command_no"
 	val rsaKeyCache: MutableMap<String, String> = mutableMapOf()
 
-	const val FULL_DATE_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
+	const val FORMAT_YMDHMS: String = "yyyy-MM-dd HH:mm:ss"
+	const val FORMAT_YMDHM: String = "yyyy-MM-dd HH:mm"
 
 	val COMMAND_LOGIN: Pair<String, String> = Pair("0x0008", "登录")
 	val COMMAND_STATION: Pair<String, String> = Pair("0x0401", "查询可操作车站")
