@@ -14,7 +14,12 @@ import io.reactivex.disposables.Disposable
  * @author chenshuai12619
  * @date 2018-02-12
  */
-class ProgressObserver<T>(var context: Context, var success: ((result: T?) -> Unit), var error: ((code: Int, message: String) -> Unit)?) : Observer<HttpResponse<T>> {
+class ProgressObserver<T>(
+		private var context: Context,
+		private var success: ((result: T?) -> Unit),
+		private var error: ((code: Int, message: String) -> Unit)?,
+		private var showProgress: Boolean = true
+) : Observer<HttpResponse<T>> {
 
 	var dialog: Dialog? = null
 	override fun onComplete() {
@@ -22,7 +27,7 @@ class ProgressObserver<T>(var context: Context, var success: ((result: T?) -> Un
 	}
 
 	override fun onSubscribe(d: Disposable) {
-		dialog = DialogUtil.showProgressDialog(context)
+		dialog = if (showProgress) DialogUtil.showProgressDialog(context) else null
 	}
 
 	override fun onNext(t: HttpResponse<T>) {

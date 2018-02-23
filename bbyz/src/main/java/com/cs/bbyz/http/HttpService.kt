@@ -2,6 +2,7 @@ package com.cs.bbyz.http
 
 import android.content.Context
 import com.cs.bbyz.constant.Constant
+import com.cs.bbyz.module.SchemItem
 import com.cs.bbyz.module.Station
 import com.cs.bbyz.module.User
 import com.cs.bbyz.storage.CacheUtils
@@ -38,7 +39,7 @@ object HttpService {
 
 	fun requestStation(context: Context, command: String, next: (stationList: List<Station>?) -> Unit) {
 		requestInstance.stationList(command, getEncryptRequestMap(mutableMapOf(), command))
-				.map(DecryptFun(command, Station::class.java))
+				.map(DecryptArrayFun(command, Station::class.java))
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(ProgressObserver(
@@ -47,6 +48,26 @@ object HttpService {
 							next(it)
 						},
 						null
+				))
+	}
+
+	fun requestSchemList(
+			context: Context,
+			command: String,
+			contentMap: MutableMap<String, Any>,
+			next: (schemList: List<SchemItem>?) -> Unit,
+			error: (code: Int, message: String) -> Unit
+	) {
+		requestInstance.schemList(command, getEncryptRequestMap(contentMap, command))
+				.map(DecryptArrayFun(command, SchemItem::class.java))
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(ProgressObserver(
+						context,
+						{
+							next(it)
+						}, error,
+						false
 				))
 	}
 

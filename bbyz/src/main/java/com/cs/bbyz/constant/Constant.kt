@@ -15,7 +15,9 @@ object Constant {
 
 	const val FORMAT_YMDHMS: String = "yyyy-MM-dd HH:mm:ss"
 	const val FORMAT_YMDHM: String = "yyyy-MM-dd HH:mm"
+	const val FORMAT_YMD: String = "yyyy-MM-dd"
 
 	val COMMAND_LOGIN: Pair<String, String> = Pair("0x0008", "登录")
 	val COMMAND_STATION: Pair<String, String> = Pair("0x0401", "查询可操作车站")
+	val COMMAND_SCHEMLIST: Pair<String, String> = Pair("0x0505", "班次信息")
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@android:color/white"
+	android:padding="@dimen/spacing_10">
+	
+	<TextView
+		android:id="@+id/schem_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="TextView"
+		android:textColor="@color/colorPrimary"
+		android:textSize="22sp"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="08:00"/>
+	
+	<TextView
+		android:id="@+id/schem_bus_id"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:textSize="12sp"
+		app:layout_constraintStart_toStartOf="@+id/schem_time"
+		app:layout_constraintTop_toBottomOf="@+id/schem_time"
+		tools:text="8001车次"/>
+	
+	<TextView
+		android:id="@+id/schem_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginStart="8dp"
+		android:textColor="@color/color_333333"
+		android:textSize="20sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.35"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="杭州南站-宁波"/>
+	
+	<TextView
+		android:id="@+id/schem_sale_num"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="TextView"
+		android:textSize="12sp"
+		app:layout_constraintStart_toStartOf="@+id/schem_name"
+		app:layout_constraintTop_toTopOf="@+id/schem_bus_id"
+		tools:text="已售 6"/>
+	
+	<TextView
+		android:id="@+id/schem_least_seat_num"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="12dp"
+		android:text="TextView"
+		android:textSize="12sp"
+		app:layout_constraintStart_toEndOf="@+id/schem_sale_num"
+		app:layout_constraintTop_toTopOf="@+id/schem_sale_num"
+		tools:text="余座 2"/>
+	
+	<TextView
+		android:id="@+id/schem_reserve_num"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="12dp"
+		android:text="TextView"
+		android:textSize="12sp"
+		app:layout_constraintStart_toEndOf="@+id/schem_least_seat_num"
+		app:layout_constraintTop_toTopOf="@+id/schem_least_seat_num"
+		tools:text="预订 6"/>
+	
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+		
+		<TextView
+			android:id="@+id/schem_status"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="TextView"
+			tools:text="开班"/>
+		
+		<TextView
+			android:id="@+id/schem_type"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/spacing_5"
+			android:background="@drawable/shape_border_ff5555"
+			android:paddingLeft="@dimen/spacing_2"
+			android:paddingRight="@dimen/spacing_2"
+			android:text="@string/schem_type_overtime"
+			android:textColor="@color/color_FF5555"
+			android:textSize="12sp"/>
+	</LinearLayout>
+</android.support.constraint.ConstraintLayout>

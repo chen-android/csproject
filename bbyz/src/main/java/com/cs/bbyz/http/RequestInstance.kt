@@ -1,6 +1,7 @@
 package com.cs.bbyz.http
 
 import com.cs.bbyz.module.HttpResponse
+import com.cs.bbyz.module.SchemItem
 import com.cs.bbyz.module.Station
 import com.cs.bbyz.module.User
 import com.cs.bbyz.storage.CacheUtils
@@ -34,4 +35,14 @@ interface RequestInstance {
 			@Body map: MutableMap<String, Any>,
 			@Query("workNo") workNo: String = CacheUtils.workerNo!!
 	): Observable<HttpResponse<List<Station>>>
+
+	/**
+	 * 请求车次
+	 */
+	@POST("api/Mobile")
+	fun schemList(
+			@Query("command") command: String,
+			@Body map: MutableMap<String, Any>,
+			@Query("workNo") workNo: String = CacheUtils.workerNo!!
+	): Observable<HttpResponse<List<SchemItem>>>
 }

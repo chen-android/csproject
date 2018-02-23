@@ -23,4 +23,11 @@
 	<string name="station_filter">过滤</string>
 	<string name="passenger_flow_summary">客流汇总</string>
 	<string name="no_usable_station">无可用车站</string>
+	<string name="schem_no_data">暂无数据</string>
+	<string name="schem_type_overtime">加班</string>
+	<string name="schem_bus_id">%1$d班次</string>
+	<string name="schem_station">%1$s-%2$s</string>
+	<string name="schem_sale_num">已售&#160;%1$d</string>
+	<string name="schem_seat_remain">余座&#160;%1$d</string>
+	<string name="schem_reverse_num">预订&#160;%1$d</string>
 </resources>
