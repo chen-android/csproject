@@ -20,4 +20,5 @@ object Constant {
 	val COMMAND_LOGIN: Pair<String, String> = Pair("0x0008", "登录")
 	val COMMAND_STATION: Pair<String, String> = Pair("0x0401", "查询可操作车站")
 	val COMMAND_SCHEMLIST: Pair<String, String> = Pair("0x0505", "班次信息")
+	val COMMAND_FILTER_DATE: Pair<String, String> = Pair("0x0500", "筛选页日期")
 }

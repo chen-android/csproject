@@ -1,9 +1,6 @@
 package com.cs.bbyz.http
 
-import com.cs.bbyz.module.HttpResponse
-import com.cs.bbyz.module.SchemItem
-import com.cs.bbyz.module.Station
-import com.cs.bbyz.module.User
+import com.cs.bbyz.module.*
 import com.cs.bbyz.storage.CacheUtils
 import io.reactivex.Observable
 import retrofit2.http.Body
@@ -45,4 +42,14 @@ interface RequestInstance {
 			@Body map: MutableMap<String, Any>,
 			@Query("workNo") workNo: String = CacheUtils.workerNo!!
 	): Observable<HttpResponse<List<SchemItem>>>
+
+	/**
+	 * 请求车次过滤时间范围
+	 */
+	@POST("api/Mobile")
+	fun schemFilterDate(
+			@Query("command") command: String,
+			@Body map: MutableMap<String, Any>,
+			@Query("workNo") workNo: String = CacheUtils.workerNo!!
+	): Observable<HttpResponse<List<FilterDate>>>
 }

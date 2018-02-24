@@ -17,20 +17,29 @@ import com.cs.bbyz.constant.Constant
 import com.cs.bbyz.http.HttpService
 import com.cs.bbyz.storage.CacheUtils
 import com.cs.bbyz.utils.DialogUtil
+import com.cs.cswidgetandutilslibrary.utils.TimeUtils
 import com.cs.cswidgetandutilslibrary.utils.ToastUtils
 import com.cs.cswidgetandutilslibrary.view.SimpleVerticalDecoration
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.navigation_schem_filter.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 	var schemNo: String = ""
 	var stopNo: String = ""
-	lateinit var schemDate: String
+	val schemDate: Calendar = Calendar.getInstance()
 	var showOverTime: Boolean = false
 	var adapter: SchemListAdapter? = null
+	var minMilliseconds: Long = 0L
+	var maxMilliseconds: Long = 0L
 
+	var filterDate: Calendar = Calendar.getInstance()
+	var filterShowOverTime: Boolean = false
+	var filterSchemNo: String = ""
+	var filterStopNo: String = ""
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
@@ -46,14 +55,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 				this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 		drawer_layout.addDrawerListener(toggle)
 		toggle.syncState()
+		toolbar.navigationIcon = resources.getDrawable(R.drawable.icon_main_person_center)
 
 		toolbar.title = getString(R.string.station_title)
-		toolbar.subtitle = DateFormat.format(Constant.FORMAT_YMDHM, System.currentTimeMillis())
-		schemDate = DateFormat.format(Constant.FORMAT_YMD, System.currentTimeMillis()).toString()
+		toolbar.subtitle = DateFormat.format(Constant.FORMAT_YMDHM, schemDate.timeInMillis)
 	}
 
 	private fun initEvent() {
-		nav_view.setNavigationItemSelectedListener(this)
+		nav_person_center.setNavigationItemSelectedListener(this)
 		fab.setOnClickListener {
 
 		}
@@ -66,11 +75,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		home_rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 		home_rv.addItemDecoration(SimpleVerticalDecoration())
 		home_rv.itemAnimator = DefaultItemAnimator()
+		initFilter()
+	}
+
+	/**初始化过滤界面事件*/
+	private fun initFilter() {
+		schem_filter_date_tv.setOnClickListener {
+			DialogUtil.buildDatePickerDialog(
+					this,
+					schemDate,
+					this.minMilliseconds,
+					this.maxMilliseconds,
+					{ milliseconds ->
+						filterDate.timeInMillis = milliseconds
+
+					}
+			)
+		}
 	}
 
 	override fun onBackPressed() {
 		if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
 			drawer_layout.closeDrawer(GravityCompat.START)
+		} else if (drawer_layout.isDrawerOpen(GravityCompat.END)) {
+			drawer_layout.closeDrawer(GravityCompat.END)
 		} else {
 			super.onBackPressed()
 		}
@@ -85,6 +113,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		return when (item.itemId) {
 			R.id.action_station -> {
 				requestStationList()
+				true
+			}
+			R.id.action_filter -> {
+				if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+					drawer_layout.closeDrawer(GravityCompat.START)
+				}
+				if (this.minMilliseconds != 0L && this.maxMilliseconds != 0L) {
+					drawer_layout.openDrawer(GravityCompat.END)
+				} else {
+					requestFilterDateRange()
+				}
+
 				true
 			}
 			R.id.action_settings -> true
@@ -140,10 +180,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 		})
 	}
 
+	private fun requestFilterDateRange() {
+		HttpService.requestFilterDate(
+				this,
+				Constant.COMMAND_FILTER_DATE.first,
+				mutableMapOf(
+						Pair("StationID", CacheUtils.station!!.ID!!)
+				),
+				{
+					if (it != null && it.isNotEmpty()) {
+						var times = it[0].Column1.split("~")
+						this.minMilliseconds = TimeUtils.string2Millis(times[0])
+						this.maxMilliseconds = TimeUtils.string2Millis(times[1])
+					}
+					drawer_layout.openDrawer(GravityCompat.END)
+				}
+		)
+
+	}
+
+	/**
+	 * 查询车次
+	 */
 	private fun requestSchemList() {
 		val contentMap: MutableMap<String, Any> = mutableMapOf(
 				Pair("StationID", CacheUtils.station!!.ID!!),
-				Pair("DriveDate", this.schemDate),
+				Pair("DriveDate", DateFormat.format(Constant.FORMAT_YMD, schemDate.timeInMillis).toString()),
 				Pair("SchemNo", this.schemNo),
 				Pair("StopNo", this.stopNo),
 				Pair("ShowOverTimeSchem", if (this.showOverTime) "1" else "0")

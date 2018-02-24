@@ -9,6 +9,8 @@
 	<!--公共-->
 	<string name="please_wait">请等待…</string>
 	<string name="network_error">网络异常，请稍后重试</string>
+	<string name="confirm">确认</string>
+	<string name="cancel">取消</string>
 	
 	<!--登录-->
 	<string name="title_activity_login">巴巴快巴移动站务系统</string>
@@ -30,4 +32,11 @@
 	<string name="schem_sale_num">已售&#160;%1$d</string>
 	<string name="schem_seat_remain">余座&#160;%1$d</string>
 	<string name="schem_reverse_num">预订&#160;%1$d</string>
+	<string name="schem_filter_date">发车日期</string>
+	<string name="schem_filter_type">班次类别</string>
+	<string name="schem_filter_bus_id">车&#160;&#160;次&#160;&#160;号</string>
+	<string name="schem_filter_bus_id_hint">请输入车次号（选填）</string>
+	<string name="schem_filter_show_overtime">显示超时班次</string>
+	<string name="schem_filter_end_station">到达站点</string>
+	<string name="schem_filter_end_station_hint">请选择到达站点（选填）</string>
 </resources>

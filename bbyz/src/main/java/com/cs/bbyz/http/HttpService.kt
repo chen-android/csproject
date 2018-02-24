@@ -2,6 +2,7 @@ package com.cs.bbyz.http
 
 import android.content.Context
 import com.cs.bbyz.constant.Constant
+import com.cs.bbyz.module.FilterDate
 import com.cs.bbyz.module.SchemItem
 import com.cs.bbyz.module.Station
 import com.cs.bbyz.module.User
@@ -16,9 +17,19 @@ import java.util.*
  * @date 2018-02-07
  */
 object HttpService {
-	private val requestInstance: RequestInstance = HttpMethods.getClassInstance(Constant.BUSSINESS_TYPE_COMMON, RequestInstance::class.java)
+	private val requestInstance: RequestInstance =
+			HttpMethods.getClassInstance(Constant.BUSSINESS_TYPE_COMMON, RequestInstance::class.java)
 
-	fun requestLogin(context: Context, command: String, account: String, pwd: String, next: ((user: User?) -> Unit)) {
+	/**
+	 * 登录
+	 */
+	fun requestLogin(
+			context: Context,
+			command: String,
+			account: String,
+			pwd: String,
+			next: ((user: User?) -> Unit)
+	) {
 		requestInstance.login(
 				command,
 				account,
@@ -37,7 +48,14 @@ object HttpService {
 				))
 	}
 
-	fun requestStation(context: Context, command: String, next: (stationList: List<Station>?) -> Unit) {
+	/**
+	 * 可操作车站
+	 */
+	fun requestStation(
+			context: Context,
+			command: String,
+			next: (stationList: List<Station>?) -> Unit
+	) {
 		requestInstance.stationList(command, getEncryptRequestMap(mutableMapOf(), command))
 				.map(DecryptArrayFun(command, Station::class.java))
 				.subscribeOn(Schedulers.io())
@@ -51,6 +69,9 @@ object HttpService {
 				))
 	}
 
+	/**
+	 * 车次列表
+	 */
 	fun requestSchemList(
 			context: Context,
 			command: String,
@@ -71,7 +92,31 @@ object HttpService {
 				))
 	}
 
-	fun getEncryptRequestMap(contentMap: MutableMap<String, Any>, command: String): MutableMap<String, Any> {
+	/**
+	 * 车次过滤时间范围
+	 */
+	fun requestFilterDate(
+			context: Context,
+			command: String,
+			contentMap: MutableMap<String, Any>,
+			next: (filterDate: List<FilterDate>?) -> Unit
+	) {
+		requestInstance.schemFilterDate(command, getEncryptRequestMap(contentMap, command))
+				.map(DecryptArrayFun(command, FilterDate::class.java))
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(ProgressObserver(
+						context,
+						{
+							next(it)
+						}, null
+				))
+	}
+
+	fun getEncryptRequestMap(
+			contentMap: MutableMap<String, Any>,
+			command: String
+	): MutableMap<String, Any> {
 		val map = mutableMapOf<String, Any>()
 		map["content"] = contentMap
 		map["common"] = getRequestCommonMap()

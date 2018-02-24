@@ -10,12 +10,12 @@
 		android:id="@+id/action_filter"
 		android:orderInCategory="20"
 		android:icon="@drawable/icon_home_ticket_filter"
-		android:title="过滤"
-		app:showAsAction="always"/>
+		android:title="@string/station_filter"
+		app:showAsAction="ifRoom"/>
 	<item
 		android:id="@+id/action_passenger_flow_summary"
 		android:orderInCategory="30"
-		android:icon="@drawable/icon_home_passenger_flow_summary"
+		android:icon="@drawable/icon_date"
 		android:title="@string/passenger_flow_summary"
 		app:showAsAction="collapseActionView|withText"/>
 	<item
