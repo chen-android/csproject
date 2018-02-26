@@ -55,6 +55,7 @@ object DialogUtil {
 				.setMaxMillseconds(maxMilliseconds)
 				.setCurrentMillseconds(calendar.timeInMillis)
 				.setType(Type.YEAR_MONTH_DAY)
+				.setThemeColor(context.resources.getColor(R.color.colorPrimary))
 				.setWheelItemTextNormalColor(context.resources.getColor(R.color.color_333333))
 				.setWheelItemTextSelectorColor(context.resources.getColor(R.color.colorPrimary))
 				.setWheelItemTextSize(12)

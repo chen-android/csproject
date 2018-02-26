@@ -39,4 +39,12 @@
 	<string name="schem_filter_show_overtime">显示超时班次</string>
 	<string name="schem_filter_end_station">到达站点</string>
 	<string name="schem_filter_end_station_hint">请选择到达站点（选填）</string>
+	
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="filter_bus_type_all">全部</string>
+	<string name="filter_bus_type_1">正班</string>
+	<string name="filter_bus_type_2">加班</string>
+	<string name="person_center_feedback">意见反馈</string>
+	<string name="person_center_upgrade">检查更新</string>
 </resources>
